@@ -14,7 +14,7 @@ print('Total rows: {}'.format(len(data)))
 print('Total columns: {}'.format(len(data.columns)))
 
 # normalizing pixels data
-data['pixels'] = data['pixels'].apply(lambda x: x / 255)
+data['pixels    '] = data['pixels'].apply(lambda x: x / 255)
 
 # calculating distributions
 age_dist = data['age'].value_counts()
@@ -57,6 +57,8 @@ def f1_score(y_true, y_pred):
 
 
 X = np.array(data['pixels'].tolist())
+
+# Todo какой нахрен 3D это же не обьемные пикчи
 
 ## Converting pixels from 1D to 3D
 X = X.reshape(X.shape[0], 48, 48, 1)
