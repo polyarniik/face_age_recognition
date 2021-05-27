@@ -18,6 +18,6 @@ class GenderAndAgePredictor:
         gender = {0: 'Male', 1: 'Female'}
         gender_predict = int(self.gender_model.predict_classes(image))
         print(gender[gender_predict])
-        print(self.age_model.predict(image))
+        print(f'~{int(self.age_model.predict(image))} years')
 
 

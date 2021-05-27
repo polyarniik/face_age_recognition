@@ -15,38 +15,22 @@ if __name__ == '__main__':
         gender_model_path='/home/pain/Desktop/sem_works/face_age_recognition/gender_recognise.model',
         age_model_path='/home/pain/Desktop/sem_works/face_age_recognition/age_recognise.model'
     )
+    for first_image in images:
 
-    first_image = images[0]
-    first_image = cv2.resize(first_image, (48, 48))
-    first_image = cv2.cvtColor(first_image, cv2.COLOR_BGR2GRAY)
+        # first_image = images[0]
+        first_image = cv2.resize(first_image, (48, 48))
+        first_image = cv2.cvtColor(first_image, cv2.COLOR_BGR2GRAY)
 
-    data = ''
-    for i in range(48):
-        for j in range(48):
-            data += " " + str(first_image[i][j])
+        data = ''
+        for i in range(48):
+            for j in range(48):
+                data += " " + str(first_image[i][j])
 
-    x = data[1:]
-    first_image = np.array(x.split(), dtype="float32") / 255
+        x = data[1:]
+        first_image = np.array(x.split(), dtype="float32") / 255
+        X = first_image.reshape(1,48,48,1)
 
-
-    # print(X)
-
-    # column_names = ["pixels"]
-    #
-    # data = pd.DataFrame(columns=column_names)
-    #
-    # X = np.array(first_image)
-    #
-    # ## Converting pixels from 1D to 3D
-    # X = X.reshape(X.shape[0], 48, 48, 1)
-
-    # first_image = img_to_array(first_image)
-    # first_image = first_image / 255
-    #
-    # # first_image = preprocess_input(first_image)
-    # first_image = np.expand_dims(first_image, axis=0)
-    #
-    # # cv2.imshow("Display window", first_image)
-    # # k = cv2.waitKey(0)
-    # predictor.predict_gender_and_age(X)
-    # print()
+        # # cv2.imshow("Display window", first_image)
+        # # k = cv2.waitKey(0)
+        predictor.predict_gender_and_age(X)
+        print()
