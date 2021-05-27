@@ -14,7 +14,7 @@ print('Total rows: {}'.format(len(data)))
 print('Total columns: {}'.format(len(data.columns)))
 
 # normalizing pixels data
-data['pixels    '] = data['pixels'].apply(lambda x: x / 255)
+data['pixels'] = data['pixels'].apply(lambda x: x / 255)
 
 # calculating distributions
 age_dist = data['age'].value_counts()
