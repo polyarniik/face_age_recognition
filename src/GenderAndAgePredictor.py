@@ -1,7 +1,6 @@
 import os
-import cv2
+
 from tensorflow.keras.models import load_model
-from loader import load_images_from_folder
 
 
 class GenderAndAgePredictor:
@@ -19,5 +18,4 @@ class GenderAndAgePredictor:
         gender_predict = int(self.gender_model.predict_classes(image))
         print(gender[gender_predict])
         print(f'~{int(self.age_model.predict(image))} years')
-
-
+        return gender[gender_predict], int(self.age_model.predict(image))
