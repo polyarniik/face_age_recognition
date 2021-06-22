@@ -158,7 +158,7 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit test_img / coverage reports
 htmlcov/
 .tox/
 .nox/

@@ -9,16 +9,18 @@ import datetime
 from GenderAndAgePredictor import GenderAndAgePredictor
 from loader import load_images_from_folder
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     images = load_images_from_folder("input")
 
     predictor = GenderAndAgePredictor(
         gender_model_path=os.path.abspath("models/gender_model.model"),
-        age_model_path=os.path.abspath("models/age_model.model")
+        age_model_path=os.path.abspath("models/age_model.model"),
     )
 
     prototxt = os.path.sep.join([os.path.abspath("models"), "deploy.prototxt"])
-    weights = os.path.sep.join([os.path.abspath("models"), "res10_300x300_ssd_iter_140000.caffemodel"])
+    weights = os.path.sep.join(
+        [os.path.abspath("models"), "res10_300x300_ssd_iter_140000.caffemodel"]
+    )
     net = cv2.dnn.readNet(prototxt, weights)
 
     MaskModel = load_model(os.path.abspath("models/mask_detector.model"))
@@ -27,8 +29,7 @@ if __name__ == '__main__':
         orig = img.copy()
         (h, w) = img.shape[:2]
 
-        blob = cv2.dnn.blobFromImage(img, 1.0, (300, 300),
-                                     (104.0, 177.0, 123.0))
+        blob = cv2.dnn.blobFromImage(img, 1.0, (300, 300), (104.0, 177.0, 123.0))
 
         net.setInput(blob)
         detections = net.forward()
@@ -59,8 +60,10 @@ if __name__ == '__main__':
 
             if mask < withoutMask:
                 face_for_age_gender = cv2.resize(face, (48, 48))
-                face_for_age_gender = cv2.cvtColor(face_for_age_gender, cv2.COLOR_BGR2GRAY)
-                data = ''
+                face_for_age_gender = cv2.cvtColor(
+                    face_for_age_gender, cv2.COLOR_BGR2GRAY
+                )
+                data = ""
                 for i in range(48):
                     for j in range(48):
                         data += " " + str(face_for_age_gender[i][j])
@@ -70,12 +73,37 @@ if __name__ == '__main__':
                 gender, age = predictor.predict_gender_and_age(X)
                 label += f"Gender: {gender} Age: {age}"
                 label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
-                cv2.putText(img, label, (startX, startY - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 3)
+                cv2.putText(
+                    img,
+                    label,
+                    (startX, startY - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.45,
+                    color,
+                    3,
+                )
                 cv2.rectangle(img, (startX, startY), (endX, endY), color, 2)
-                cv2.imwrite(os.path.join(os.path.abspath("intruder"), f"intruder_{gender}_{int(age)}.jpg"), img)
+                cv2.imwrite(
+                    os.path.join(
+                        os.path.abspath("test_img/intruder"),
+                        f"intruder_{gender}_{int(age)}.jpg",
+                    ),
+                    img,
+                )
             else:
-                cv2.putText(img, label, (startX, startY - 10),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 3)
+                cv2.putText(
+                    img,
+                    label,
+                    (startX, startY - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.45,
+                    color,
+                    3,
+                )
                 cv2.rectangle(img, (startX, startY), (endX, endY), color, 2)
-                cv2.imwrite(os.path.join(os.path.abspath("in_mask"), f"in_mask_{dt_string}.jpg"), img)
+                cv2.imwrite(
+                    os.path.join(
+                        os.path.abspath("test_img/in_mask"), f"in_mask_{dt_string}.jpg"
+                    ),
+                    img,
+                )
